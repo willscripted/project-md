@@ -1,0 +1,38 @@
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#page {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+
+.column {
+  height: 100%;
+  width: 33%;
+  float: left;
+}
+
+h1 {
+  text-align: center;
+  height: 30px;
+  margin: 20px 0;
+}
+
+.text-area {
+  height: calc(100% - 110px);
+  width: calc(100% - 20px);
+  margin: 10px 20px;
+  border: 2px dashed #666;
+  padding: 1em;
+  overflow-y: scroll;
+}
