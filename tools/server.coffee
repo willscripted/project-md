@@ -1,13 +1,32 @@
-express = require('express')
-serve = require('serve-static')
-logger = require('morgan')
-fs = require('fs')
-spdy = require('spdy')
+
+bodyParser = require('body-parser')
+express    = require('express')
+fs         = require('fs')
+logger     = require('morgan')
+serve      = require('serve-static')
+spdy       = require('spdy')
 
 # Serve build/
 app = express()
   .use(logger('dev'))
+  .use(bodyParser.text())
+  .use(bodyParser.json())
   .use(serve('./demo/'))
+
+app.post('/project-md', (req, resp) ->
+  sys = require('sys')
+  spawn = require('child_process').spawn
+
+  child = spawn("#{__dirname}/../bin/project-md")
+  child.stdout.on('data', (data) ->
+    resp.send(data)
+    child.kill('SIGTERM')
+  )
+  child.on('error', () -> console.log "err", arguments)
+
+  child.stdin.setEncoding = 'utf-8'
+  child.stdin.write(req.body)
+)
 
 options = {
   key: fs.readFileSync("#{__dirname}/certs/server.key"),
