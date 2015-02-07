@@ -19,6 +19,7 @@ app.post('/project-md', (req, resp) ->
 
   child = spawn("#{__dirname}/../bin/project-md")
   child.stdout.on('data', (data) ->
+    resp.type('json')
     resp.send(data)
     child.kill('SIGTERM')
   )
