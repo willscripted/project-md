@@ -1,9 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env bash
 
-import sys
-import json
-import pandocfilters
-
-if __name__ == "__main__":
-  doc = sys.stdin.read()
-  json.dump({"to": "json"}, sys.stdout)
+# In: markdown
+# Out: project json
+pandoc -t json -s < /dev/stdin | ./toJson.py
