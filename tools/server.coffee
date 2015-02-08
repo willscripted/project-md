@@ -6,6 +6,9 @@ logger     = require('morgan')
 serve      = require('serve-static')
 spdy       = require('spdy')
 
+sys = require('sys')
+spawn = require('child_process').spawn
+
 # Serve build/
 app = express()
   .use(logger('dev'))
@@ -13,11 +16,8 @@ app = express()
   .use(bodyParser.json())
   .use(serve('./demo/'))
 
-app.post('/project-md', (req, resp) ->
-  sys = require('sys')
-  spawn = require('child_process').spawn
-
-  child = spawn("#{__dirname}/../bin/project-md")
+app.post('/toJson', (req, resp) ->
+  child = spawn("#{__dirname}/../bin/toJson")
   child.stdout.on('data', (data) ->
     resp.type('json')
     resp.send(data)
@@ -27,6 +27,21 @@ app.post('/project-md', (req, resp) ->
 
   child.stdin.setEncoding = 'utf-8'
   child.stdin.write(req.body)
+  child.stdin.end()
+)
+
+app.post('/toMd', (req, resp) ->
+  child = spawn("#{__dirname}/../bin/toMd")
+  child.stdout.on('data', (data) ->
+    resp.type('text')
+    resp.send(data)
+    child.kill('SIGTERM')
+  )
+  child.on('error', () -> console.log "err", arguments)
+
+  child.stdin.setEncoding = 'utf-8'
+  child.stdin.write(JSON.stringify(req.body))
+  child.stdin.end()
 )
 
 options = {

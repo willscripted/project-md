@@ -7,20 +7,19 @@ var test = require('tape'),
 var sys = require('sys'),
     spawnSync = require('child_process').spawnSync;
 
-var invoke = function (args) {
+var invoke = function (binName) {
   return function(input){
-    var cmd  = path.resolve(__dirname, "../bin/project-md"),
-        args = args,
+    var cmd  = path.resolve(__dirname, "../bin/", binName),
         opts = {input: input},
-        results = spawnSync(cmd, args, opts);
+        results = spawnSync(cmd, [], opts);
 
     return results.stdout.toString('utf-8');
   };
 };
 
-var asClean  = invoke(['-f', 'md',   '-t', 'md'  ]),
-    asJSON = invoke(['-f', 'md',   '-t', 'json']),
-    asMd   = invoke(['-f', 'json', '-t', 'md'  ]);
+var asClean  = invoke('clean'),
+    asJSON   = invoke('toJson'),
+    asMd     = invoke('toMd');
 
 test('testing werks', function(t){
   t.plan(1);
