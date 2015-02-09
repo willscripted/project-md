@@ -21,7 +21,6 @@ app.post('/toJson', (req, resp) ->
   resp.type('json')
 
   child.stdout.on('data', (data) ->
-    console.log "data received", data
     resp.send(data.toString('utf-8'))
   )
 
@@ -41,7 +40,6 @@ app.post('/toMd', (req, resp) ->
   resp.type('text')
 
   child.stdout.on('data', (data) ->
-    console.log "data received", data
     resp.send(data.toString('utf-8'))
   )
 

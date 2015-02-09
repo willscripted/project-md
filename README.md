@@ -32,7 +32,7 @@ Project Markdown  - Parsable Todo Lists
 Convert to JSON
 
 ```
-cat .todo | project-md -to json -from md > project.json
+cat .todo | ./bin/toJson
 ```
 
 #### JSON
@@ -70,7 +70,7 @@ cat .todo | project-md -to json -from md > project.json
 Convert back to Markdown
 
 ```
-cat project.json | project-md -to md -from json
+cat project.json | ./bin/toMd
 ```
 
     Project Name
