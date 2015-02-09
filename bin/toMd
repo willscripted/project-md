@@ -2,4 +2,6 @@
 
 # In: project json
 # Out: markdown
-./toMd < /dev/stdin | pandoc -f json
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+cat | $DIR/toMd.py | pandoc -f json -t markdown | cat

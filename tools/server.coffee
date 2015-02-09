@@ -18,12 +18,17 @@ app = express()
 
 app.post('/toJson', (req, resp) ->
   child = spawn("#{__dirname}/../bin/toJson")
+  resp.type('json')
+
   child.stdout.on('data', (data) ->
-    resp.type('json')
-    resp.send(data)
+    console.log "data received", data
+    resp.send(data.toString('utf-8'))
+  )
+
+  child.on('error', () -> console.log "err", arguments)
+  child.stdout.on('end', ->
     child.kill('SIGTERM')
   )
-  child.on('error', () -> console.log "err", arguments)
 
   child.stdin.setEncoding = 'utf-8'
   child.stdin.write(req.body)
@@ -32,12 +37,19 @@ app.post('/toJson', (req, resp) ->
 
 app.post('/toMd', (req, resp) ->
   child = spawn("#{__dirname}/../bin/toMd")
+
+  resp.type('text')
+
   child.stdout.on('data', (data) ->
-    resp.type('text')
-    resp.send(data)
+    console.log "data received", data
+    resp.send(data.toString('utf-8'))
+  )
+
+  child.on('error', () -> console.log "err", arguments)
+
+  child.stdout.on('end', ->
     child.kill('SIGTERM')
   )
-  child.on('error', () -> console.log "err", arguments)
 
   child.stdin.setEncoding = 'utf-8'
   child.stdin.write(JSON.stringify(req.body))

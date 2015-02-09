@@ -12,8 +12,10 @@ var View = Ractive.extend({
       request
         .post('/toJson')
         .set('Content-Type', 'text/plain')
+        .set('Accept', 'application/json')
         .send(entry)
         .end(function(resp){
+          console.log("toJson", resp);
           this.set('json', pprint(resp.body));
         }.bind(this));
     });
