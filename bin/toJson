@@ -5,4 +5,4 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-cat | pandoc -t json -s | $DIR/toJson.py | cat
+cat | pandoc -t json -s | $DIR/../src/toJson.py | cat

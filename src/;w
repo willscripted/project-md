@@ -1,0 +1,25 @@
+#!/usr/bin/python
+
+import sys
+import json
+import pandocfilters
+
+from sh import pandoc
+
+
+# In: project json
+# Out: pandoc json
+
+if __name__ == "__main__":
+  for line in sys.stdin:
+    project = json.loads(line)
+    sys.stderr.write(str(project))
+
+    header = "# " + project["name"]
+    header1 = pandoc(["-f", "markdown", "-t", "json"], _in=header )
+
+    # TODO - overwritten doc
+    doc = [{"unMeta": {}}, [header]]
+    json.dump(doc, sys.stdout)
+  sys.stdout.flush()
+  sys.stdout.close()
