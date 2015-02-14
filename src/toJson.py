@@ -2,6 +2,7 @@
 
 import sys
 import json
+import re
 
 import zipper
 
@@ -30,6 +31,9 @@ levelToType = [
 
 def isHeader(item):
   return item["t"] == "Header"
+
+def isList(item):
+  return item["t"] == "BulletList"
 
 def level(block):
   return block["c"][0]
@@ -61,6 +65,39 @@ def addHeader(top, headerBlock):
 
   return zipper.list(top.root())
 
+isTaskRegex = re.compile('\[.\] .*')
+def isTask(item):
+  task = pandocfilters.stringify(item)
+  return isTaskRegex.match(task) != None
+
+def taskToProjectJson(block):
+  # TODO - name & isComplete
+  name = ""
+  isComplete = False
+  return ["", name, "task", isComplete]
+
+def addTask(top, block):
+  top = top.rightmost_descendant()
+  lasttype = top.leftmost().right().right().node()
+  if lasttype == "task":
+    top = top.up().up().rightmost().append(taskToProjectJson(block))
+  else:
+    top = top.rightmost().append(taskToProjectJson(block))
+
+  return top
+
+def addTasks(top, block):
+  for item in block["c"]:
+    if isTask(item):
+      top = addTask(top, item)
+    else:
+      top = addToLastDescription(top, item)
+  return top
+
+def addToLastDescription(top, item):
+  lastDescriptionLoc = top.rightmost_descendant().leftmost()
+  description = lastDescriptionLoc.node()
+  return lastDescriptionLoc.replace(description + markdownify(block))
 
 if __name__ == "__main__":
   for line in sys.stdin:
@@ -72,12 +109,12 @@ if __name__ == "__main__":
       if isHeader(block):
         top = addHeader(top, block)
         top = zipper.list(top.root())
+      elif isList(block):
+        top = addTasks(top, block)
+        top = zipper.list(top.root())
       else:
-        lastDescriptionLoc = top.rightmost_descendant().leftmost()
-        description = lastDescriptionLoc.node()
-        top = zipper.list(lastDescriptionLoc.replace(description + markdownify(block)).root())
-
-
+        top = addToLastDescription(top, block)
+        top = zipper.list(top.root())
 
     json.dump(top.root(), sys.stdout)
 

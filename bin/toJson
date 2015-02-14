@@ -5,4 +5,11 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-cat | pandoc -t json -s | $DIR/../src/toJson.py | cat
+# '[ ] task\n' => '[ ] task\n\n'
+task_correct='s/\(\[.\] .*\)/- \1\n/g'
+
+cat \
+ | sed "$task_correct" \
+ | pandoc -t json -s \
+ | $DIR/../src/toJson.py \
+ | cat
