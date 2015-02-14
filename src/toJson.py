@@ -53,13 +53,13 @@ def addFillerHeader(top, level):
       ["", "-- Missing Name --", levelToType[5], []],
       ["", "-- Missing Name --", levelToType[6], []]
   ]
-  return zipper.list(top.rightmost().append(fillers[level]).root())
+  return top.rightmost().append(fillers[level])
 
 def addHeader(top, headerBlock):
   for i in range(1, level(headerBlock)):
     if top.rightmost().node() == []:
       top = addFillerHeader(top, i)
-    top = top.rightmost().down().down()
+    top = top.rightmost().down().rightmost().down()
 
   top = top.rightmost().append(headerToProjectJson(headerBlock))
 
