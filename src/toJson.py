@@ -43,6 +43,7 @@ def headerToProjectJson(block):
   jsonType = levelToType[level(block)]
   return ["", name, jsonType, []]
 
+# Remember, list order is [description name type ... children?]
 def addFillerHeader(top, level):
   fillers = [
       None,
