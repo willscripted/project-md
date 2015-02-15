@@ -66,14 +66,17 @@ def addHeader(top, headerBlock):
   return zipper.list(top.root())
 
 isTaskRegex = re.compile('\[.\] .*')
+taskRegex = re.compile('\[(.)\] (.*)')
 def isTask(item):
   task = pandocfilters.stringify(item)
   return isTaskRegex.match(task) != None
 
 def taskToProjectJson(block):
-  # TODO - name & isComplete
-  name = ""
-  isComplete = False
+  match = taskRegex.match(pandocfilters.stringify(block))
+
+  isComplete = match.group(1) != " "
+  name = match.group(2)
+
   return ["", name, "task", isComplete]
 
 def addTask(top, block):
@@ -99,6 +102,37 @@ def addToLastDescription(top, item):
   description = lastDescriptionLoc.node()
   return lastDescriptionLoc.replace(description + markdownify(block))
 
+
+def toObjs(top):
+  loc = top.leftmost_descendant()
+
+  while loc:
+    if type(loc.node()) == type([]):
+      item = loc.node()
+      if any(map(lambda x: type(x) == type({}), item)) or len(item) == 0:
+        pass
+      elif item[2] == "task":
+        loc = loc.replace({
+          "description": item[0],
+          "name": item[1],
+          "type": item[2],
+          "complete": item[3]
+        })
+      else:
+        loc = loc.replace({
+          "description": item[0],
+          "name": item[1],
+          "type": item[2],
+          "content": item[3]
+        })
+
+    n = loc.postorder_next()
+    if n:
+      loc = n
+    else:
+      return loc.root()
+
+
 if __name__ == "__main__":
   for line in sys.stdin:
     doc = json.loads(line)
@@ -116,14 +150,6 @@ if __name__ == "__main__":
         top = addToLastDescription(top, block)
         top = zipper.list(top.root())
 
-    json.dump(top.root(), sys.stdout)
+    top = toObjs(zipper.list(top.root()))
+    json.dump(top, sys.stdout)
 
-
-# TODO
-## while more_nodes
-#    if header:
-#      from top, find-or-add each successive header until desired depth is reached
-#    else if contains_tasks
-#      add tasks
-#    else
-#      Add to description of last (header or task)
