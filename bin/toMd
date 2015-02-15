@@ -4,4 +4,4 @@
 # Out: markdown
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-cat | $DIR/../src/toMd.py | pandoc -f json -t markdown | cat
+cat | $DIR/../src/toMd.py | cat

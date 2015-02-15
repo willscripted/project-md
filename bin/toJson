@@ -7,8 +7,10 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 # '[ ] task\n' => '[ ] task\n\n'
 task_correct='s/\(\[.\] .*\)/- \1\n/g'
+blank_header_correct='s/^\(#\+\) *$/\1 -- Missing Name --/g'
 
 cat \
+ | sed "$blank_header_correct" \
  | sed "$task_correct" \
  | pandoc -t json -s \
  | $DIR/../src/toJson.py \

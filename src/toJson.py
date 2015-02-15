@@ -57,7 +57,7 @@ def addFillerHeader(top, level):
 
 def addHeader(top, headerBlock):
   for i in range(1, level(headerBlock)):
-    if top.rightmost().node() == []:
+    if top.rightmost().node() == [] or top.rightmost().node()[0][2] == "task":
       top = addFillerHeader(top, i)
     top = top.rightmost().down().rightmost().down()
 
@@ -100,7 +100,7 @@ def addTasks(top, block):
 def addToLastDescription(top, item):
   lastDescriptionLoc = top.rightmost_descendant().leftmost()
   description = lastDescriptionLoc.node()
-  return lastDescriptionLoc.replace(description + markdownify(block))
+  return lastDescriptionLoc.replace(description + markdownify(block) + "\n")
 
 
 def toObjs(top):
@@ -121,7 +121,7 @@ def toObjs(top):
       else:
         loc = loc.replace({
           "description": item[0],
-          "name": item[1],
+          "name": item[1] or "-- missing name --",
           "type": item[2],
           "content": item[3]
         })
