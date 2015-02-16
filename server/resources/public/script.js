@@ -15,7 +15,6 @@ var View = Ractive.extend({
         .set('Accept', 'application/json')
         .send(entry)
         .end(function(resp){
-          console.log("toJson", resp);
           this.set('json', pprint(resp.body));
         }.bind(this));
     });
@@ -25,7 +24,6 @@ var View = Ractive.extend({
         .set('Content-Type', 'application/json')
         .send(json)
         .end(function(resp){
-          console.log('tomd', this, resp);
           this.set('md', resp.text);
         }.bind(this));
     });

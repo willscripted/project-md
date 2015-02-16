@@ -1,6 +1,9 @@
-# server
+# Project Markdown Demo
 
-FIXME
+<p align="center">
+  <img src="/server/demo.png?raw=true" />
+</p>
+
 
 ## Prerequisites
 
@@ -10,10 +13,14 @@ You will need [Leiningen][] 2.0.0 or above installed.
 
 ## Running
 
-To start a web server for the application, run:
+Run server on port 3000
 
-    lein ring server
+```
+make run
+```
 
 ## License
 
-Copyright © 2015 FIXME
+Copyright © 2015 Will O'Brien
+
+See LICENSE for details
