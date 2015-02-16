@@ -124,7 +124,7 @@ def toObjs(top):
           "description": item[0],
           "name": item[1] or "-- missing name --",
           "type": item[2],
-          "content": item[3]
+          "contents": item[3]
         })
 
     n = loc.postorder_next()

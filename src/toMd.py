@@ -27,7 +27,7 @@ def itemToMd(item, level=1):
     text += getHeader(item, level) + "\n"
     if item["description"] != "":
       text += "\n" + item["description"]
-    for subitem in item["content"]:
+    for subitem in item["contents"]:
       text += "\n" + itemToMd(subitem, level + 1)
 
   return text

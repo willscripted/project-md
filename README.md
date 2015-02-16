@@ -42,12 +42,12 @@ cat .todo | ./bin/toJson
   "name": "Project Name",
   "type": "project",
   "description": "Short description of *project*.",
-  "content": [
+  "contents": [
     {
       "name": "Some Objective",
       "type": "objective",
       "description": "Description of the _objective_.\n\n```\n.example(codeBlock);\n```\n",
-      "content": [
+      "contents": [
         {"type": "task", "name": "Task 1", "complete": false, "description": ""},
         {"type": "task", "name": "Task 2", "complete": false, "description": ""},
         {"type": "task", "name": "Task 3", "complete": false, "description": "Description of `Task 3`"}
@@ -57,7 +57,7 @@ cat .todo | ./bin/toJson
       "name": "Another Objective",
       "type": "objective",
       "description": "",
-      "content": [
+      "contents": [
         {"type": "task", "name": "Task 4", "complete": true, "description": ""},
         {"type": "task", "name": "Task 5", "complete": true, "description": ""},
         {"type": "task", "name": "Task 6", "complete": false, "description": ""}
