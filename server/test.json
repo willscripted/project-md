@@ -1,0 +1,59 @@
+[
+  {
+    "content": [
+      {
+        "content": [
+          {
+            "type": "task",
+            "description": "",
+            "complete": false,
+            "name": "Task 1"
+          },
+          {
+            "type": "task",
+            "description": "",
+            "complete": false,
+            "name": "Task 2"
+          },
+          {
+            "type": "task",
+            "description": "Description of `Task 3`\n\n",
+            "complete": false,
+            "name": "Task 3"
+          }
+        ],
+        "type": "objective",
+        "description": "Description of the objective.\n\n    .example(codeBlock);\n\n",
+        "name": "Some objective"
+      },
+      {
+        "content": [
+          {
+            "type": "task",
+            "description": "",
+            "complete": true,
+            "name": "Task 4"
+          },
+          {
+            "type": "task",
+            "description": "",
+            "complete": true,
+            "name": "Task 5"
+          },
+          {
+            "type": "task",
+            "description": "",
+            "complete": false,
+            "name": "Task 6"
+          }
+        ],
+        "type": "objective",
+        "description": "",
+        "name": "Another objective"
+      }
+    ],
+    "type": "project",
+    "description": "Short description of project.\n\n",
+    "name": "Project Name"
+  }
+]

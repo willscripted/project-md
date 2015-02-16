@@ -33,8 +33,12 @@ def itemToMd(item, level=1):
   return text
 
 if __name__ == "__main__":
+  js = ""
   for line in sys.stdin:
-    projects = json.loads(line)
+    js += line
+
+  if js != "":
+    projects = json.loads(js)
 
     mdText = ""
     for project in projects:

@@ -1,0 +1,3 @@
+
+run:
+	lein ring server

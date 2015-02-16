@@ -4,4 +4,4 @@
 # Out: markdown
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-cat | $DIR/../src/toMd.py | cat
+cat | $DIR/../src/toMd.py 2>&1 | cat

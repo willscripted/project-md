@@ -1,7 +1,5 @@
-
-
 run:
-	./node_modules/.bin/coffee ./tools/server.coffee
+	cd ./server && make run
 
 test:
 	npm test
