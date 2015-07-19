@@ -2,4 +2,6 @@ run:
 	cd ./server && make run
 
 test:
-	npm test
+	lein test
+
+.PHONY: test run

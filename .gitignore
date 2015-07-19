@@ -1,2 +1,5 @@
 
+target
+.lein-failures
+.lein-repl-history
 node_modules

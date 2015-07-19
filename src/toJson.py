@@ -151,6 +151,8 @@ if __name__ == "__main__":
         top = addToLastDescription(top, block)
         top = zipper.list(top.root())
 
-    top = toObjs(zipper.list(top.root()))
-    json.dump(top, sys.stdout)
+    objs = toObjs(zipper.list(top.root()))
+    if objs == []:
+      objs = toObjs(addFillerHeader(zipper.list(top.root()), 1))
+    json.dump(objs, sys.stdout)
 
