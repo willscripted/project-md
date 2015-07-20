@@ -58,7 +58,7 @@ def addFillerHeader(top, level):
 
 def addHeader(top, headerBlock):
   for i in range(1, level(headerBlock)):
-    if top.rightmost().node() == [] or top.rightmost().node()[0][2] == "task":
+    if top.rightmost().node() == [] or top.rightmost().node()[-1][2] == "task":
       top = addFillerHeader(top, i)
     top = top.rightmost().down().rightmost().down()
 
