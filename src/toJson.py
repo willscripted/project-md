@@ -95,13 +95,16 @@ def addTasks(top, block):
     if isTask(item):
       top = addTask(top, item)
     else:
-      top = addToLastDescription(top, item)
+      top = addToLastDescription(top, item, True)
   return top
 
-def addToLastDescription(top, item):
+def addToLastDescription(top, item, isList = False):
   lastDescriptionLoc = top.rightmost_descendant().leftmost()
   description = lastDescriptionLoc.node()
-  return lastDescriptionLoc.replace(description + markdownify(block) + "\n")
+  if isList:
+    return lastDescriptionLoc.replace(description + "- " + markdownify(item))
+  else:
+    return lastDescriptionLoc.replace(description + markdownify(item) + "\n")
 
 
 def toObjs(top):
@@ -140,6 +143,14 @@ if __name__ == "__main__":
 
     projects = []
     top = zipper.list(projects)
+
+    # if first block is not a header, add blank project
+    if len(doc[1]) > 0 and not isHeader(doc[1][0]):
+      top = addFillerHeader(top, 1)
+
+    # Process all blocks, creating a tree
+    # Note: this uses a zipper to keep track of where in the
+    #   json tree we are.
     for block in doc[1]:
       if isHeader(block):
         top = addHeader(top, block)
